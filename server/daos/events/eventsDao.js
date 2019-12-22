@@ -10,7 +10,8 @@ class EventsDao {
       const event = new Events({
         title,
         description,
-        price
+        price,
+        user: "5df3e2fcd17b932d68fa4de6"
       });
 
       await event.save();

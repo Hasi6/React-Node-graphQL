@@ -3,7 +3,6 @@ const socketio = require("socket.io");
 const http = require("http");
 const connectDB = require("./config/db");
 const graphQLHttp = require("express-graphql");
-const { buildSchema } = require("graphql");
 
 const app = express();
 
@@ -16,6 +15,7 @@ app.use(
 
 // MODELS
 require("./models/Events");
+require("./models/Users");
 
 // Database Connection
 connectDB();

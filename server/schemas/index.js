@@ -27,13 +27,19 @@ const schema = buildSchema(`
             price: Float!
         }
 
+        input UserInput {
+            email: String!
+            password: String!
+        }
+
         type RootQuery {
             events( name: String): [Event!]!
+            users(_id: String): User
         }
 
         type RootMutation {
             createEvent(eventInput: EventInput): Event
-            createUser(name: String): String
+            createUser(userInput: UserInput): String
         }
 
         schema {
@@ -65,8 +71,11 @@ rootValue = {
       console.error(err.message);
     }
   },
+  user: args => {
+    console.log(args);
+  },
   createUser: args => {
-    return args.name;
+    return args.userInput.email;
   }
 };
 
