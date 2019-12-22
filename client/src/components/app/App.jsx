@@ -1,11 +1,21 @@
 import React from "react";
+import { withRouter, Route, Switch } from "react-router-dom";
 
-const App = () => {
+// REDUX
+import { Provider } from "react-redux";
+import configureStore from "../../redux/store/configureStore";
+import HomePage from "./HomePage/HomePage";
+
+const store = configureStore;
+
+const App = ({ location }) => {
   return (
-    <div>
-      <h1>React App</h1>
-    </div>
+    <Provider store={store}>
+      <Switch key={location.key}>
+        <Route path="/" exact component={HomePage} />
+      </Switch>
+    </Provider>
   );
 };
 
-export default App;
+export default withRouter(App);
