@@ -2,6 +2,8 @@ const express = require("express");
 const socketio = require("socket.io");
 const http = require("http");
 const connectDB = require("./config/db");
+const graphQLHttp = require("express-graphql");
+const { buildSchema } = require("graphql");
 
 const app = express();
 
@@ -13,9 +15,22 @@ app.use(
 );
 
 // MODELS
+require("./models/Events");
 
 // Database Connection
 connectDB();
+
+const values = require("./schemas");
+const { rootValue, schema } = values;
+// Graphql
+app.use(
+  "/graphql",
+  graphQLHttp({
+    schema,
+    rootValue,
+    graphiql: true
+  })
+);
 
 // SERVER CREATE
 const PORT = process.env.PORT || 5000;
