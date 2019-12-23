@@ -24,7 +24,7 @@ const values = require("./schemas");
 const { rootValue, schema } = values;
 // Graphql
 app.use(
-  "/graphql",
+  "/graphiql",
   graphQLHttp({
     schema,
     rootValue,

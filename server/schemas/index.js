@@ -1,15 +1,17 @@
 const { buildSchema } = require("graphql");
 const EventsDao = require("../daos/events/eventsDao");
+const UserDao = require("../daos/user/userDao");
 let event = [];
 
 const eventsDao = new EventsDao();
+const userDao = new UserDao();
 
 const schema = buildSchema(`
 
         type User {
             _id: ID!
             email: String!
-            password: String!
+            password: String
         }
 
         type Event {
@@ -28,6 +30,7 @@ const schema = buildSchema(`
         }
 
         input UserInput {
+            username: String!
             email: String!
             password: String!
         }
@@ -39,7 +42,7 @@ const schema = buildSchema(`
 
         type RootMutation {
             createEvent(eventInput: EventInput): Event
-            createUser(userInput: UserInput): String
+            createUser(userInput: UserInput): User
         }
 
         schema {
@@ -71,11 +74,17 @@ rootValue = {
       console.error(err.message);
     }
   },
-  user: args => {
-    console.log(args);
+  users: args => {
+    return userDao.getUser(args._id);
   },
   createUser: args => {
-    return args.userInput.email;
+    const newUser = {
+      username: args.userInput.username,
+      email: args.userInput.email,
+      password: args.userInput.password
+    };
+
+    return userDao.addUser(newUser);
   }
 };
 
