@@ -15,7 +15,7 @@ class EventsDao {
       });
 
       await event.save();
-      return event;
+      return event.populate("user", ["email", "_id"]);
     } catch (err) {
       console.error(err.message);
     }
@@ -24,7 +24,8 @@ class EventsDao {
   // Get Events
   getEvents = async data => {
     try {
-      const events = await Events.find();
+      const events = await Events.find().populate("user", ["_id", "email"]);
+      console.log(events);
       return events;
     } catch (err) {
       console.error(err.message);

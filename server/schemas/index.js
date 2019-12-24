@@ -10,7 +10,7 @@ const schema = buildSchema(`
 
         type User {
             _id: ID!
-            email: String!
+            email: String
             password: String
         }
 
