@@ -16,6 +16,7 @@ app.use(
 // MODELS
 require("./models/Events");
 require("./models/Users");
+require("./models/Booking");
 
 // Database Connection
 connectDB();

@@ -1,10 +1,12 @@
 const { buildSchema } = require("graphql");
 const EventsDao = require("../daos/events/eventsDao");
 const UserDao = require("../daos/user/userDao");
+const BookingDao = require("../daos/booking/BookingDao");
 let event = [];
 
 const eventsDao = new EventsDao();
 const userDao = new UserDao();
+const bookingDao = new BookingDao();
 
 const schema = buildSchema(`
 
@@ -12,6 +14,12 @@ const schema = buildSchema(`
             _id: ID!
             email: String
             password: String
+        }
+
+        type Booking {
+          _id: ID!,
+          user: User,
+          event: Event
         }
 
         type Event {
@@ -35,14 +43,22 @@ const schema = buildSchema(`
             password: String!
         }
 
+        input BookingInput {
+          user: String!,
+          event: String!
+        }
+
         type RootQuery {
             events( name: String): [Event!]!
             users(_id: String): User
+            booking(_id: String): Booking
+            allBooking: [Booking!]
         }
 
         type RootMutation {
             createEvent(eventInput: EventInput): Event
             createUser(userInput: UserInput): User
+            createBooking(bookingInput: BookingInput): Booking
         }
 
         schema {
@@ -85,6 +101,19 @@ rootValue = {
     };
 
     return userDao.addUser(newUser);
+  },
+  booking: args => {
+    return bookingDao.getBooking(args._id);
+  },
+  allBooking: () => {
+    return bookingDao.getAllBooking();
+  },
+  createBooking: args => {
+    const { user, event } = args.bookingInput;
+
+    const newData = { user, event };
+
+    return bookingDao.addBooking(newData);
   }
 };
 
