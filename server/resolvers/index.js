@@ -44,7 +44,8 @@ const rootValue = {
   booking: args => {
     return bookingDao.getBooking(args._id);
   },
-  allBooking: () => {
+  allBooking: (args, req) => {
+    console.log(req.user);
     return bookingDao.getAllBooking();
   },
   createBooking: args => {
