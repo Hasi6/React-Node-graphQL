@@ -21,8 +21,8 @@ require("./models/Booking");
 // Database Connection
 connectDB();
 
-const values = require("./schemas");
-const { rootValue, schema } = values;
+const schema = require("./schemas");
+const rootValue = require("./resolvers");
 // Graphql
 app.use(
   "/graphiql",
